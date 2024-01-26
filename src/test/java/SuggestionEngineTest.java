@@ -38,7 +38,6 @@ public class SuggestionEngineTest {
     }
 
 
-
     @Test
     public void testGenerateSuggestions_NoSuggestions() throws IOException {
         Path dictionaryFile = Paths.get("src/test/resources/dictionary.txt");
