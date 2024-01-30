@@ -1,3 +1,5 @@
+//Pulled From Jamie Cornick's GitHub No edits made
+
 import java.util.HashMap;
 import java.util.Map;
 
