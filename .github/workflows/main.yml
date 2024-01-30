@@ -10,22 +10,24 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       
-    - name: Set up JDK 20
-      uses: actions/setup-java@v2
-      with:
-        java-version: 20
-        distribution: 'adopt'
-        server-id: github
-        server-username: ${{ github.actor }}
-        server-password: ${{ github.token }}
-        overwrite: true
+      - name: Set up JDK 20
+        uses: actions/setup-java@v2
+        with:
+          java-version: 20
+          distribution: 'adopt'
+          server-id: github
+          server-username: ${{ github.actor }}
+          server-password: ${{ github.token }}
+          overwrite: true
 
-    - name: Run tests
-      run: mvn test
+      - name: Install Maven
+        run: sudo apt-get install maven -y
+
+      - name: Build and test
+        run: mvn test
