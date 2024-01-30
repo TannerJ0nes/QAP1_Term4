@@ -16,15 +16,8 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt@1.20'
-          java-version: '20'  # Specify the version here
+          java-version: '20'
           architecture: 'x64'
-          check-latest: false
-          server-id: github
-          server-username: GITHUB_ACTOR
-          server-password: GITHUB_TOKEN
-          overwrite-settings: true
-          job-status: 'success'
 
       - name: Run unit tests
         run: |
