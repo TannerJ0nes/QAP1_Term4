@@ -1,63 +1,55 @@
 //Written By Tanner Jones
 //Date: Jan 26 2024
 //QAP 1
-//Dictionary File pulled from Jamie Cornick's GitHub
 
-
-//Imports
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class SuggestionEngineTest {
-    private SuggestionEngine suggestionEngine;
-    @BeforeEach
-    public void setUp() {
-        suggestionEngine = new SuggestionEngine();
+
+    private final SuggestionEngine suggestionEngine = new SuggestionEngine();
+
+    @Test
+    public void testEmptyWordSuggestions() {
+        suggestionEngine.setWordSuggestionDB(MockData());
+        String suggestion = suggestionEngine.generateSuggestions("");
+        Assertions.assertEquals("", suggestion);
     }
 
-    // Test for when the word is already in the dictionary
     @Test
-    public void testGenerateSuggestions_WordInDictionary() throws IOException {
-        Path dictionaryFile = Paths.get("src/test/resources/dictionary.txt");
-        suggestionEngine.loadDictionaryData(dictionaryFile);
-
-        String suggestions = suggestionEngine.generateSuggestions("hello");
-        assertEquals("", suggestions, "Should return an empty string for correct word");
+    public void testCorrectWordSuggestions() {
+        String suggestion = suggestionEngine.generateSuggestions("banana");
+        Assertions.assertEquals("", suggestion);
     }
 
-    // Test for when the word is not in the dictionary
     @Test
-    public void testGenerateSuggestions_WordNotInDictionary() throws IOException {
-        Path dictionaryFile = Paths.get("src/test/resources/dictionary.txt");
-        suggestionEngine.loadDictionaryData(dictionaryFile);
-
-        String suggestions = suggestionEngine.generateSuggestions("helo");
-        assertNotNull(suggestions, "Suggestions should not be null");
-        assertFalse(suggestions.isEmpty(), "Suggestions should not be empty");
+    public void testMisspelledWordSuggestions() {
+        suggestionEngine.setWordSuggestionDB(MockData());
+        String suggestion = suggestionEngine.generateSuggestions("banna");
+        Assertions.assertEquals("banana", suggestion);
     }
 
-    // Test for when the word is correctly spelled and in the dictionary
     @Test
-    public void testGenerateSuggestions_NoSuggestions() throws IOException {
-        //Path dictionaryFile = Paths.get("src/test/resources/dictionary.txt");
-        suggestionEngine.loadDictionaryData(Path.of("src/test/resources/dictionary.txt"));
-
-        String suggestions = suggestionEngine.generateSuggestions("world");
-        assertEquals("", suggestions, "Should return an empty string for correct word in dictionary");
+    public void testPerformance() {
+        suggestionEngine.setWordSuggestionDB(MockData());
+        long startTime = System.currentTimeMillis();
+        suggestionEngine.generateSuggestions("incorrectWord");
+        long endTime = System.currentTimeMillis();
+        long executeTime = endTime - startTime;
+        Assertions.assertTrue(executeTime < 1000, "Test failed. Time exceeded.");
     }
 
-    // Testing edge cases,  a single-letter words or non-alphabetic characters
-    @Test
-    public void testGenerateSuggestions_EdgeCases() throws IOException {
-        Path dictionaryFile = Paths.get("src/test/resources/dictionary.txt");
-        suggestionEngine.loadDictionaryData(dictionaryFile);
 
-        String suggestions = suggestionEngine.generateSuggestions("a");
-        assertNotNull(suggestions, "Suggestions should not be null");
-        assertFalse(suggestions.isEmpty(), "Suggestions for single-letter word should not be empty");
+    // Creating mock data for SuggestionDatabase
+    private SuggestionsDatabase MockData() {
+        SuggestionsDatabase database = new SuggestionsDatabase();
+        Map<String, Integer> wordMap = new HashMap<>();
+        wordMap.put("banana", 1);
+        database.setWordMap(wordMap);
+        return database;
     }
 }

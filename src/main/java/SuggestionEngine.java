@@ -20,7 +20,7 @@ public class SuggestionEngine {
      *   Specifically the second part which describes how to create a Candidate Model in order to determine a list of
      *   words that the user may be trying to input.
      */
-    private Stream<String> wordEdits(final String word) {
+    Stream<String> wordEdits(final String word) {
         Stream<String> deletes    = IntStream.range(0, word.length())  .mapToObj((i) -> word.substring(0, i) + word.substring(i + 1));
         Stream<String> replaces   = IntStream.range(0, word.length())  .mapToObj((i)->i).flatMap( (i) -> "abcdefghijklmnopqrstuvwxyz".chars().mapToObj( (c) ->
                 word.substring(0,i) + (char)c + word.substring(i+1) )  );
