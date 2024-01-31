@@ -4,10 +4,8 @@
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class SuggestionEngineTest {
 
@@ -43,8 +41,7 @@ public class SuggestionEngineTest {
         Assertions.assertTrue(executeTime < 1000, "Test failed. Time exceeded.");
     }
 
-
-    // Creating mock data for SuggestionDatabase
+    // Creating mock data for SuggestionDatabase Rather then using .txt file
     private SuggestionsDatabase MockData() {
         SuggestionsDatabase database = new SuggestionsDatabase();
         Map<String, Integer> wordMap = new HashMap<>();
