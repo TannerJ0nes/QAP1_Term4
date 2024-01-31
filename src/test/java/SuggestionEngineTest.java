@@ -43,8 +43,8 @@ public class SuggestionEngineTest {
     // Test for when the word is correctly spelled and in the dictionary
     @Test
     public void testGenerateSuggestions_NoSuggestions() throws IOException {
-        Path dictionaryFile = Paths.get("src/test/resources/dictionary.txt");
-        suggestionEngine.loadDictionaryData(dictionaryFile);
+        //Path dictionaryFile = Paths.get("src/test/resources/dictionary.txt");
+        suggestionEngine.loadDictionaryData(Path.of("src/test/resources/dictionary.txt"));
 
         String suggestions = suggestionEngine.generateSuggestions("world");
         assertEquals("", suggestions, "Should return an empty string for correct word in dictionary");
